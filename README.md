@@ -7,7 +7,7 @@
 [![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes-326ce5?style=for-the-badge&logo=kubernetes)](https://kubernetes.io/)
 
 ## 📖 Über das Projekt
-**JobConnect** ist eine Backend-Lösung für eine Job-Vermittlungsplattform, entwickelt als Semesterprojekt an der Hochschule Karlsruhe.
+**JobConnect** ist eine beispielhafte Backend-Lösung für eine Job-Vermittlungsplattform, entwickelt als Semesterprojekt an der Hochschule Karlsruhe.
 
 Das System stellt eine RESTful API bereit, um Stellenangebote (`JobOffers`) und Bewerbungen (`Applications`) zu verwalten. Besonderer Fokus lag auf einer sauberen Schichtenarchitektur, Typsicherheit und modernen Deployment-Strategien mittels Infrastructure-as-Code.
 
@@ -34,9 +34,12 @@ graph TD
     JS -- calls --> JR
     JR -- JDBC/Spring Data --> DB
 
-    style JC fill:#f9f,stroke:#333,stroke-width:2px
-    style JS fill:#ff9,stroke:#333,stroke-width:2px
-    style JR fill:#9cf,stroke:#333,stroke-width:2px
+    %% Styles für professionellen Look (Blau/Weiß/Grau Töne)
+    style JC fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    style JS fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000
+    style JR fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#000
+    style DB fill:#f5f5f5,stroke:#616161,stroke-width:2px,color:#000
+    style Client fill:#ffffff,stroke:#333,stroke-width:2px,color:#000
 
 ```
 
@@ -85,8 +88,8 @@ classDiagram
 
 ### Core Backend
 
-* **Sprache:** Java 21
-* **Framework:** Spring Boot (Web, Data JPA, Validation)
+* **Sprache:** Java 25
+* **Framework:** Spring Boot (Web, Data JPA, Validation), Spring Data (Hibernate)
 * **Datenbank:** PostgreSQL
 * **Architektur:** REST, Layered Architecture
 * **Build Tool:** Maven
@@ -104,7 +107,7 @@ classDiagram
 
 ### Voraussetzungen
 
-* JDK 21
+* JDK 25
 * Docker & Docker Compose
 * Maven (optional, da `mvnw` enthalten ist)
 
