@@ -1,0 +1,28 @@
+meta {
+  name: Nicht-vorhandene Emailadresse
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{apiUrl}}?email=Nicht.Vorhanden@acme.com
+  body: none
+  auth: inherit
+}
+
+params:query {
+  email: Nicht.Vorhanden@acme.com
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 404
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

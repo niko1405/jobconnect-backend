@@ -1,0 +1,30 @@
+meta {
+  name: Nicht-vorhandene ID 99999999-9999-9999-9999-999999999999
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{apiUrl}}/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 99999999-9999-9999-9999-999999999999
+}
+
+headers {
+  X-Version: 2.0.0
+}
+
+script:post-response {
+  test('Statuscode 404', () => {
+      expect(res.getStatus()).to.equal(404);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

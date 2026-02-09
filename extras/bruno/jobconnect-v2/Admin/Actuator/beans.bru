@@ -1,0 +1,22 @@
+meta {
+  name: beans
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{actuatorUrl}}/beans
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.contexts.kunde.beans: isJson
+  res.body.contexts.kunde.beans: isNotEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

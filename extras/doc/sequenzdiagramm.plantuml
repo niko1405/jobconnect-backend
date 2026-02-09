@@ -1,0 +1,13 @@
+@startuml Sequenzdiagramm
+
+actor Client
+
+boundary JobOfferController
+control JobOfferService
+control JobOfferRepository
+
+Client -> JobOfferController : GET / getById()
+JobOfferController -> JobOfferService: findById()
+JobOfferService -> JobOfferRepository: findById()
+
+@enduml

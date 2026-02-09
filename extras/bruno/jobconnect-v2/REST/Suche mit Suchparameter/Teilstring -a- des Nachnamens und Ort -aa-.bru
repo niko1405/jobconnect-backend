@@ -1,0 +1,47 @@
+meta {
+  name: Teilstring "a" des Nachnamens und Ort "aa"
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{apiUrl}}?nachname=a&ort=aa
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nachname: a
+  ort: aa
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+tests {
+  test('Body: Nachname enthaelt "a", Ort enthaelt "aa" und ID', () => {
+    res.getBody()
+      .content
+      .forEach(kunde => {
+        const { nachname, adresse, id } = kunde;
+        expect(nachname).to.be.a('string');
+        expect(nachname.toLowerCase()).to.include('a');
+        expect(adresse).to.be.an('object').that.hasOwnProperty('ort');
+        expect(adresse.ort.toLowerCase()).to.contain('aa');
+        expect(id).to.be.a('string').that.matches(/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/u);
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

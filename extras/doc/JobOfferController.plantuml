@@ -1,0 +1,73 @@
+@startuml JobOfferController
+
+skinparam classAttributeIconSize 0
+
+package org.springframework {
+    package web.bind.annotation {
+        annotation RestController
+        annotation RequestMapping
+        annotation PathVariable
+        annotation RequestParam
+        annotation ExceptionHandler
+        annotation ResponseStatus
+    }
+
+    package http {
+        class ResponseEntity<T>
+    }
+    package util {
+        class MultiValueMap<K,V>
+    }
+}
+
+package java.util {
+    interface Collection
+    class UUID
+}
+
+package com.acme.jobconnect {
+    package entity {
+        class JobOffer
+    }
+    package service {
+        class JobOfferService << control >> << @Service >>
+        class NotFoundException
+
+        JobOfferService .right[hidden].> JobOffer
+    }
+
+    package rest #DDDDDD {
+        class JobOfferController << boundary >> << @RestController >> << @RequestMapping >> {
+            ~ @GetMapping getById(@PathVariable id: UUID): JobOffer
+            ~ @GetMapping get(@RequestParam final queryParam: Map<String, String>): Collection<JobOffer>
+            ~ @GetMapping getByCompany(@PathVariable final company: String) : Collection<JobOffer>
+        }
+
+        class GlobalExceptionHandler << @ControllerAdvice >> {
+            ~ @ExceptionHandler @ResponseStatus onNotFound(ex: NotFoundException)
+        }
+
+        JobOfferController o--> "1" JobOfferService : service
+
+        JobOfferController .up.> RestController
+        JobOfferController .up.> RequestMapping
+        JobOfferController .up.> PathVariable
+        JobOfferController .up.> RequestParam
+        JobOfferController .up.> ResponseEntity
+        JobOfferController .up.> MultiValueMap
+        JobOfferController .down.> JobOffer
+
+        GlobalExceptionHandler .up.> ExceptionHandler
+        GlobalExceptionHandler .up.> ResponseStatus
+        GlobalExceptionHandler ..> NotFoundException
+
+        JobOfferController .right.> UUID
+        JobOfferController ..> Collection
+    }
+}
+
+hide empty members
+
+footer (c) Nikolas Vix
+
+@enduml

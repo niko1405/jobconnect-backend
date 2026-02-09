@@ -1,0 +1,53 @@
+meta {
+  name: Kunde 30 mit ungültigen Daten ändern
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{apiUrl}}/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 00000000-0000-0000-0000-000000000030
+}
+
+headers {
+  If-Match: "0"
+}
+
+body:json {
+  {
+      "nachname": "?!$",
+      "email": "email@",
+      "kategorie" : 11,
+      "hasNewsletter": true,
+      "geburtsdatum": "3000-01-31",
+      "homepage": "https://www.test.de",
+      "geschlecht": "M",
+      "familienstand": "VW",
+      "username": "user",
+      "password": "Pass123."
+  }
+  
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/problem+json
+  res.body.status: eq 422
+  res.body.title: eq Unprocessable Content
+  res.body.instance: eq /api/00000000-0000-0000-0000-000000000030
+  res.body.detail: isString
+  res.body.detail: contains nachname
+  res.body.detail: contains email
+  res.body.detail: contains kategorie
+  res.body.detail: contains geburtsdatum
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

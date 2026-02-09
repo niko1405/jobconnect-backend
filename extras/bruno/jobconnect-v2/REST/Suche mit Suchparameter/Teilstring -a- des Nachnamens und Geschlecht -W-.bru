@@ -1,0 +1,46 @@
+meta {
+  name: Teilstring "a" des Nachnamens und Geschlecht "W"
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{apiUrl}}?nachname=a&geschlecht=W
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nachname: a
+  geschlecht: W
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+tests {
+  test('Body: Nachname enthaelt "a", Geschlecht "W" und ID', () => {
+    res.getBody()
+      .content
+      .forEach(kunde => {
+        const { nachname, geschlecht, id } = kunde;
+        expect(nachname).to.be.a('string');
+        expect(nachname.toLowerCase()).to.include('a');
+        expect(geschlecht).to.be.a('string').that.equals('W');
+        expect(id).to.be.a('string').that.matches(/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/u);
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

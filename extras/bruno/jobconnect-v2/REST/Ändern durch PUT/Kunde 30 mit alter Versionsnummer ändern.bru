@@ -1,0 +1,50 @@
+meta {
+  name: Kunde 30 mit alter Versionsnummer ändern
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{apiUrl}}/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 00000000-0000-0000-0000-000000000030
+}
+
+headers {
+  If-Match: "-1"
+}
+
+body:json {
+  {
+      "nachname": "Testput",
+      "email": "Theo@Test.de.put",
+      "kategorie" : 1,
+      "hasNewsletter": true,
+      "geburtsdatum": "2024-01-31",
+      "homepage": "https://www.test.de",
+      "geschlecht": "W",
+      "familienstand": "L",
+      "username": "alpha3",
+      "password": "p"
+  }
+  
+}
+
+assert {
+  res.status: eq 412
+  res.headers['content-type']: eq application/problem+json
+  res.body.status: eq 412
+  res.body.title: eq Precondition Failed
+  res.body.instance: eq /api/00000000-0000-0000-0000-000000000030
+  res.body.detail: isString
+  res.body.detail: contains Versionsnummer
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,26 @@
+meta {
+  name: DB neu laden
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/dev/db_populate
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.db_populate: eq ok
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

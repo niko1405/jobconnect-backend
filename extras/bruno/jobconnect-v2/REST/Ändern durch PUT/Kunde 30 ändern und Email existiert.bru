@@ -1,0 +1,50 @@
+meta {
+  name: Kunde 30 ändern und Email existiert
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{apiUrl}}/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 00000000-0000-0000-0000-000000000030
+}
+
+headers {
+  If-Match: "1"
+}
+
+body:json {
+  {
+    "nachname": "Testput",
+    "email": "admin@acme.com",
+    "kategorie" : 1,
+    "hasNewsletter": true,
+    "geburtsdatum": "2024-01-31",
+    "homepage": "https://www.test.de",
+    "geschlecht": "W",
+    "familienstand": "L",
+    "username": "alpha3",
+    "password": "p"
+  }
+  
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/problem+json
+  res.body.status: eq 422
+  res.body.title: eq Unprocessable Content
+  res.body.instance: eq /api/00000000-0000-0000-0000-000000000030
+  res.body.detail: isString
+  res.body.detail: contains Emailadresse
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Nicht-vorhandene Property
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{apiUrl}}?php=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  php: true
+}
+
+assert {
+  res.status: eq 404
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

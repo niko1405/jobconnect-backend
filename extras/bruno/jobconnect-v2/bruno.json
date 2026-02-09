@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "jobconnect-v2",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

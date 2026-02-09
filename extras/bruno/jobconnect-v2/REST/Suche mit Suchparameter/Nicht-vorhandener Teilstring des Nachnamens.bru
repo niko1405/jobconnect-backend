@@ -1,0 +1,28 @@
+meta {
+  name: Nicht-vorhandener Teilstring des Nachnamens
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{apiUrl}}?nachname=Zeta
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nachname: Zeta
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 404
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

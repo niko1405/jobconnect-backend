@@ -1,0 +1,59 @@
+meta {
+  name: Neuer Kunde ohne Adresse
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{apiUrl}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~: 
+}
+
+body:json {
+  {
+    "nachname": "?!$",
+    "email": "email",
+    "kategorie": 11,
+    "hasNewsletter": true,
+    "geburtsdatum": "3000-01-31",
+    "homepage": "https://www.test.de",
+    "geschlecht": "W",
+    "familienstand": "L",
+    "rechnungen": [{
+      "betrag": 0,
+      "waehrung": "EUR"
+    }],
+    "interessen": [
+      "R",
+      "L",
+      "L"
+    ],
+    "username": "test",
+    "password": "Pass1234"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/problem+json
+  res.body.status: eq 422
+  res.body.title: eq Unprocessable Content
+  res.body.instance: eq /api
+  res.body.detail: isString
+  res.body.detail: contains nachname:
+  res.body.detail: contains email:
+  res.body.detail: contains kategorie:
+  res.body.detail: contains geburtsdatum:
+  res.body.detail: contains interessen:
+  res.body.detail: contains adresse:
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

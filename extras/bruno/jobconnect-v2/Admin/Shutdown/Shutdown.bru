@@ -1,0 +1,26 @@
+meta {
+  name: Shutdown
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{actuatorUrl}}/shutdown
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: p
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: matches ^Shutting down
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

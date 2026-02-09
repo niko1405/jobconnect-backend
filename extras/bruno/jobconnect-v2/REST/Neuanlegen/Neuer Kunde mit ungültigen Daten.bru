@@ -1,0 +1,63 @@
+meta {
+  name: Neuer Kunde mit ungültigen Daten
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{apiUrl}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~: 
+}
+
+body:json {
+  {
+    "nachname": "?!$",
+    "email": "email",
+    "kategorie": 11,
+    "hasNewsletter": true,
+    "geburtsdatum": "3000-01-31",
+    "homepage": "https://www.test.de",
+    "geschlecht": "W",
+    "familienstand": "L",
+    "adresse": {
+      "plz": "1234",
+      "ort": "Testort"
+    },
+    "rechnungen": [{
+      "betrag": 0,
+      "waehrung": "EUR"
+    }],
+    "interessen": [
+      "R",
+      "L",
+      "L"
+    ],
+    "username": "test",
+    "password": "Pass1234"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/problem+json
+  res.body.status: eq 422
+  res.body.title: eq Unprocessable Content
+  res.body.instance: eq /api
+  res.body.detail: isString
+  res.body.detail: contains nachname: muss
+  res.body.detail: contains email: muss
+  res.body.detail: contains kategorie: muss
+  res.body.detail: contains geburtsdatum: muss
+  res.body.detail: contains interessen: darf
+  res.body.detail: contains adresse.plz: muss
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,42 @@
+meta {
+  name: Nachnamen mit Präfix
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{apiUrl}}/nachname/:praefix
+  body: none
+  auth: inherit
+}
+
+params:path {
+  praefix: a
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+script:post-response {
+  test('Body: Nachname enthaelt "a"', () => {
+    res.getBody()
+      .content
+      .forEach(nachname => {
+        expect(nachname).to.be.a('string');
+        expect(nachname.toLowerCase()).to.include('a');
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

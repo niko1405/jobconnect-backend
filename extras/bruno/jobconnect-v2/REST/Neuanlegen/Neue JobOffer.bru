@@ -1,0 +1,57 @@
+meta {
+  name: Neue JobOffer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{apiUrl}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~: 
+}
+
+body:json {
+  {
+    "company": "Future Tech GmbH",
+    "expirationdate": "2026-12-31",
+    "viewscount": 0,
+    "status": "D",
+    "description": {
+      "title": "Senior Java Developer",
+      "location": "Berlin (Hybrid)",
+      "salary": 75000.00,
+      "summary": "Wir suchen dich für unser Backend-Team.",
+      "responsibilities": "Entwicklung von Microservices mit Spring Boot.",
+      "requirements": "Mindestens 5 Jahre Erfahrung mit Java 21.",
+      "employment": "F"
+    },
+    "applications": [
+      {
+        "applicant": "Max Mustermann",
+        "resume": "https://s3.bucket.com/cv_max.pdf",
+        "coverletter": "https://s3.bucket.com/cl_max.pdf",
+        "documents": [
+          "https://s3.bucket.com/cert_java.pdf",
+          "https://s3.bucket.com/cert_scrum.pdf"
+        ],
+        "status": "APL"
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers.location: matches /api/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$
+  res.body: isString
+  res.body: isEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

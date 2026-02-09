@@ -1,0 +1,43 @@
+meta {
+  name: Vorhandener Nachname
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{apiUrl}}?nachname=Alice
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nachname: Alice
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+tests {
+  test('Body: Nachname "Alice" und ID', () => {
+    res.getBody()
+      .content
+      .forEach(kunde => {
+          const { nachname, id } = kunde;
+          expect(nachname).to.be.equal('Alice');
+          expect(id).to.be.a('string').that.matches(/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/u);
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

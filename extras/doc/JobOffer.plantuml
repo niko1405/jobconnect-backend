@@ -1,0 +1,94 @@
+@startuml jobconnect
+
+skinparam classAttributeIconSize 0
+' skinparam monochrome true
+
+package java {
+    package util {
+        class UUID
+        interface List<T>
+        class URI
+        class Currency
+    }
+
+    package math {
+        class BigDecimal
+    }
+
+    package time {
+        class LocalDate
+    }
+}
+
+package com.acme.jobconnect.entity #DDDDDD {
+    class JobDescription {
+        title: String
+        location: String
+        salary: BigDecimal
+        summary: String
+        responsibilities: String
+        requirements: String
+        employment: EmploymentType
+    }
+
+    class Application {
+        id : UUID
+        applicant : String
+        resume : URI
+        coverletter: URI
+        date : LocalDate
+        documents: List<URI>
+        status: ApplicationStatus
+    }
+
+    enum JobOfferStatus {
+        ACTIVE
+        CLOSED
+        DRAFT
+    }
+
+    enum EmploymentType {
+        FULLTIME
+        PARTTIME
+        INTERNSHIP
+        CONTRACT
+    }
+
+    enum ApplicationStatus {
+        APPLIED
+        REVIEWED
+        REJECTED
+        APPROVED
+    }
+
+    class JobOffer << entity >> {
+        id : UUID
+        company : String
+        publicationdate : LocalDate
+        expirationdate: LocalDate
+        viewscount : int
+        status: JobOfferStatus
+    }
+
+    JobOffer *--> "0..*" Application : applications
+    JobOffer *--> "1" JobDescription : jobdescription
+    JobOffer .left.> JobOfferStatus
+
+    JobOffer ..> UUID
+    JobOffer ..> LocalDate
+    JobOffer ..> List
+
+    JobDescription .up.> EmploymentType
+    JobDescription ..> BigDecimal
+
+    Application ..> LocalDate
+    Application ..> List
+    Application ..> URI
+    Application ..> UUID
+
+    Application .right.> ApplicationStatus
+}
+
+hide empty members
+
+@enduml

@@ -1,0 +1,51 @@
+# --- Build Output (Maven & IntelliJ) ---
+target/
+out/
+build/
+.gradle/
+gradle.properties
+
+# --- IDE Files (IntelliJ / VS Code) ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# --- Spring Boot & Logs ---
+*.log
+src/main/resources/.reloadtrigger
+# Falls du Environment Variablen nutzt:
+.env
+
+# --- OS Junk Files ---
+.DS_Store
+Thumbs.db
+
+# --- Infrastructure / Docker ---
+# Terraform (sehr wichtig, da du einen terraform ordner hast)
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Pulumi (sehr wichtig, da du einen pulumi ordner hast)
+.pulumi/
+# Pulumi Stack Configs enthalten manchmal secrets, prüf das!
+# Pulumi.*.yaml
+
+# KPT / Kubernetes
+.kpt-pipeline
+
+# --- Sensible Daten / Secrets ---
+# Deine spezifischen Pfade:
+extras/compose/db/postgres/db_password.txt
+src/main/resources/private-key.pem
+
+# Allgemeine Sicherheitsnetze (damit man nicht aus Versehen was hochlädt):
+*.pem
+*.key
+*.p12
+*.jks
+
+**/node_modules/

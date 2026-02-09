@@ -1,0 +1,33 @@
+meta {
+  name: Vorhandene Emailadresse
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{apiUrl}}?email=admin@acme.com
+  body: none
+  auth: inherit
+}
+
+params:query {
+  email: admin@acme.com
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: length 1
+  res.body.content[0].email: eq admin@acme.com
+  res.body.content[0].id: matches [\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
