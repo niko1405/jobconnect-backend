@@ -10,7 +10,7 @@
 > Eine cloud-native Backend-Referenzimplementierung für eine Job-Vermittlungsplattform.
 > Entwickelt im Rahmen des Studiums an der Hochschule Karlsruhe.
 
-## 📋 Projektübersicht
+## Projektübersicht
 
 JobConnect ist ein beispielhaft implementiertes Backend-System, das moderne **Enterprise-Patterns** mit **Cloud-Native-Technologien** verbindet. Das System ermöglicht die Verwaltung von Stellenangeboten und Bewerbungsprozessen über eine gesicherte RESTful API.
 
@@ -22,7 +22,7 @@ Der Fokus dieses Projekts lag nicht nur auf funktionaler Korrektheit, sondern au
 
 ---
 
-## 🏗️ Systemarchitektur
+## Systemarchitektur
 
 Das System folgt einer **Layered Architecture** (Controller, Service, Repository) und integriert einen externen Identity Provider (Keycloak) für das Access Management.
 
@@ -97,7 +97,7 @@ classDiagram
 
 ---
 
-## 🛠️ Technologie-Stack
+## echnologie-Stack
 
 Das Projekt nutzt aktuelle Standards und Preview-Features des Java-Ökosystems.
 
@@ -179,12 +179,3 @@ cd ../..
 * Keycloak Admin: `http://localhost:8081`
 
 ---
-
-## 📄 Lizenz & Copyright
-
-Copyright (C) 2016 - present Jürgen Zimmermann, Hochschule Karlsruhe.
-Dieses Projekt steht unter der **GNU General Public License v3.0**.
-
-```
-
-```
